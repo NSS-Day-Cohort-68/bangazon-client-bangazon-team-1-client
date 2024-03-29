@@ -12,6 +12,7 @@ export default function Products() {
   const [locations, setLocations] = useState([])
   const [categories, setCategories] = useState([])
   const [recentProducts, setRecentProducts] = useState({})
+  const [isFiltering, setIsFiltering] = useState(false)
 
   const getRecentProducts = async () => {
     const out = {}
@@ -49,6 +50,7 @@ export default function Products() {
   }, [categories])
 
   const searchProducts = (event) => {
+    setIsFiltering(event !== "")
     getProducts(event).then((productsData) => {
       if (productsData) {
         setProducts(productsData)
@@ -60,31 +62,45 @@ export default function Products() {
 
   return (
     <>
-      <Filter productCount={products.length} onSearch={searchProducts} locations={locations} />
+      <Filter productCount={products.length} onSearch={searchProducts} locations={locations} categories={categories} />
 
-      {/* <div className="columns is-multiline">
-        {products.map(product => (
-          <ProductCard product={product} key={product.id} />
-        ))}
-      </div> */}
+      {isFiltering ? (
+        <>
+          <li
+            style={{
+              listStyle: "None",
+              textAlign: "center",
+              fontWeight: "bold",
+              marginTop: "50px",
+              marginBottom: "10px",
+            }}>
+            Products matching filters
+          </li>
+          <div className="columns is-multiline">
+            {products.map((product) => (
+              <ProductCard product={product} key={product.id} />
+            ))}
+          </div>
+        </>
+      ) : (
+        <div style={{ textAlign: "center" }}>
+          {categories.map((category) => (
+            <ul key={"c" + category.id}>
+              <li style={{ fontWeight: "bold", marginTop: "50px", marginBottom: "10px" }}>{category.name}</li>
 
-      <div style={{ textAlign: "center" }}>
-        {categories.map((category) => (
-          <ul key={"c" + category.id}>
-            <li style={{ fontWeight: "bold", marginTop: "50px", marginBottom: "10px" }}>{category.name}</li>
-
-            <li className="columns is-multiline">
-              {recentProducts[category.id]?.length > 0 ? (
-                recentProducts[category.id]?.map((product) => (
-                  <ProductCard product={product} key={"c" + category.id + "-p" + product.id} />
-                ))
-              ) : (
-                <div style={{ marginLeft: "30px" }}>No products with this category yet.</div>
-              )}
-            </li>
-          </ul>
-        ))}
-      </div>
+              <li className="columns is-multiline">
+                {recentProducts[category.id]?.length > 0 ? (
+                  recentProducts[category.id]?.map((product) => (
+                    <ProductCard product={product} key={"c" + category.id + "-p" + product.id} />
+                  ))
+                ) : (
+                  <div style={{ marginLeft: "30px" }}>No products with this category yet.</div>
+                )}
+              </li>
+            </ul>
+          ))}
+        </div>
+      )}
     </>
   )
 }
