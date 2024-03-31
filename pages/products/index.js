@@ -50,7 +50,7 @@ export default function Products() {
   }, [categories])
 
   const searchProducts = (event) => {
-    setIsFiltering(event !== "")
+    setIsFiltering(!(event === "" || event == "direction=asc&" || event == "direction=desc&"))
     getProducts(event).then((productsData) => {
       if (productsData) {
         setProducts(productsData)

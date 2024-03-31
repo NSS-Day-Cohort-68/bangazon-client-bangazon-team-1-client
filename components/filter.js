@@ -21,7 +21,7 @@ export default function Filter({ productCount, onSearch, locations, categories }
       if (ref === 'direction') {
         refEls[ref].current.checked = false
         setDirection('asc')
-      } else if (["min_price", "name"].includes(ref)) {
+      } else if (["min_price", "name", 'number_sold'].includes(ref)) {
         refEls[ref].current.value = ""
       }
       else {
