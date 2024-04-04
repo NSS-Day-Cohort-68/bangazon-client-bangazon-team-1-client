@@ -43,6 +43,7 @@ export default function ProductDetail() {
           ratings={product.ratings}
           average_rating={product.average_rating}
           likes={product.likes}
+          productId={id}
         />
       </div>
     </div>
