@@ -1,59 +1,59 @@
-import { fetchWithResponse, fetchWithoutResponse } from './fetcher'
+import { createWithResponse, fetchWithResponse, fetchWithoutResponse } from "./fetcher"
 
 export function getStores() {
-  return fetchWithResponse('stores', {
+  return fetchWithResponse("stores", {
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`
-    }
+      Authorization: `Token ${localStorage.getItem("token")}`,
+    },
   })
 }
 
 export function getStoreById(id) {
   return fetchWithResponse(`stores/${id}`, {
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`
-    }
+      Authorization: `Token ${localStorage.getItem("token")}`,
+    },
   })
 }
 
-export function addStore(store) {
-  return fetchWithResponse(`stores`, {
-    method: 'POST',
+export async function addStore(store) {
+  return createWithResponse(`stores`, {
+    method: "POST",
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json'
+      Authorization: `Token ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(store)
+    body: JSON.stringify(store),
   })
 }
 
 export function editStore(store) {
   return fetchWithoutResponse(`stores/${store.id}`, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json'
+      Authorization: `Token ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(store)
+    body: JSON.stringify(store),
   })
 }
 
 export function favoriteStore(storeId) {
   return fetchWithoutResponse(`stores/${storeId}/favorite`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json'
+      Authorization: `Token ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
     },
   })
 }
 
 export function unfavoriteStore(storeId) {
   return fetchWithoutResponse(`stores/${storeId}/unfavorite`, {
-    method: 'DELETE',
+    method: "DELETE",
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json'
+      Authorization: `Token ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
     },
   })
 }
