@@ -15,6 +15,13 @@ const checkErrorJson = (res) => {
   }
 }
 
+const checkCreateErrorJson = (res) => {
+  if (res.status !== 201) {
+    throw Error(res.status);
+  } else {
+    return res.json()
+  }
+}
 
 const catchError = (err) => {
   if (err.message === '401') {
@@ -27,6 +34,10 @@ const catchError = (err) => {
 
 export const fetchWithResponse = (resource, options) => fetch(`${API_URL}/${resource}`, options)
   .then(checkErrorJson)
+  .catch(catchError)
+
+  export const createWithResponse = (resource, options) => fetch(`${API_URL}/${resource}`, options)
+  .then(checkCreateErrorJson)
   .catch(catchError)
 
 export const fetchWithoutResponse = (resource, options) => fetch(`${API_URL}/${resource}`, options)
