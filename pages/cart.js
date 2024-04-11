@@ -16,7 +16,7 @@ export default function Cart() {
   const router = useRouter()
 
   const refresh = () => {
-    getCart().then(cartData => {
+    getCart().then((cartData) => {
       if (cartData) {
         setCart(cartData)
       }
@@ -25,7 +25,7 @@ export default function Cart() {
 
   useEffect(() => {
     refresh()
-    getPaymentTypes().then(paymentData => {
+    getPaymentTypes().then((paymentData) => {
       if (paymentData) {
         setPaymentTypes(paymentData)
       }
@@ -33,7 +33,9 @@ export default function Cart() {
   }, [])
 
   const completeOrder = (paymentTypeId) => {
-    completeCurrentOrder(cart.id, paymentTypeId).then(() => router.push('/my-orders'))
+    const payment = { payment_type: paymentTypeId }
+    completeCurrentOrder(cart.id, payment)
+      .then(() => router.push("/my-orders"))
   }
 
   const removeProduct = (productId) => {
