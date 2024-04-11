@@ -22,7 +22,6 @@ export default function Orders() {
             const paymentTypeData = await paymentTypeRes.json()
             return { ...order, payment_type: paymentTypeData }
           } catch (error) {
-            console.error(error)
             return { ...order, payment_type: null } // or handle error differently
           }
         })
@@ -30,18 +29,17 @@ export default function Orders() {
         Promise.all(fetchPaymentTypes).then((ordersWithData) => {
           const ordersWithPaymentTypes = ordersWithData.filter((order) => order.paymentType !== null)
           const ordersDataTotal = ordersWithPaymentTypes.map((order) => {
-            let total = 0;
+            let total = 0
             if (order.lineitems) {
               for (const lineItem of order.lineitems) {
-                total += lineItem.product.price;
+                total += lineItem.product.price
               }
             }
             return {
               ...order,
               total: total.toFixed(2),
-            };
-          });
-          console.log(ordersDataTotal)
+            }
+          })
           setOrders(ordersDataTotal)
         })
       }
