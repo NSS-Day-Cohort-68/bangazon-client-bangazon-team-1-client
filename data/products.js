@@ -52,6 +52,15 @@ export function removeProductFromOrder(id) {
   })
 }
 
+export function removeAllProductsFromOrder() {
+  return fetchWithoutResponse(`/profile/cart`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Token ${localStorage.getItem('token')}`
+    }
+  })
+}
+
 export function deleteProduct(id) {
   return fetchWithoutResponse(`products/${id}`, {
     method: 'DELETE',
