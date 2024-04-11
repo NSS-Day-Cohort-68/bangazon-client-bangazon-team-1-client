@@ -1,4 +1,4 @@
-import { fetchWithResponse, fetchWithoutResponse } from './fetcher'
+import { fetchWithResponse, fetchWithoutResponse, fetchWithoutStatus } from './fetcher'
 
 export function getProducts(query=undefined) {
   const url = 'products'
@@ -104,7 +104,7 @@ export function editProduct(id, product) {
 }
 
 export function recommendProduct(id, username) {
-  return fetchWithResponse(`products/${id}/recommend`, {
+  return fetchWithoutStatus(`products/${id}/recommend`, {
     method: 'POST',
     headers: {
       Authorization: `Token ${localStorage.getItem('token')}`,
