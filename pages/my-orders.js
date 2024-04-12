@@ -27,7 +27,7 @@ export default function Orders() {
         })
 
         Promise.all(fetchPaymentTypes).then((ordersWithData) => {
-          const ordersWithPaymentTypes = ordersWithData.filter((order) => order.paymentType !== null)
+          const ordersWithPaymentTypes = ordersWithData.filter((order) => order.payment_type !== null)
           const ordersDataTotal = ordersWithPaymentTypes.map((order) => {
             let total = 0
             if (order.lineitems) {
