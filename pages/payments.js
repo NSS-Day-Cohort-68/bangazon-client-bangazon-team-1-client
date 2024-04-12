@@ -23,10 +23,12 @@ export default function Payments() {
   }, [])
 
   const addNewPayment = (payment) => {
-    addPaymentType(payment).then(() => {
-      setShowModal(false)
-      refresh()
-    })
+    if (payment.merchant.trim() && payment.acctNumber.trim() && payment.expiration_date){
+      addPaymentType(payment).then(() => {
+        setShowModal(false)
+        refresh()
+      })
+    }
   }
 
   const removePayment = (paymentId) => {
