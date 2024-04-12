@@ -29,9 +29,13 @@ export default function Stores() {
       <div className="columns is-multiline">
         {stores.map((store) => {
           const filteredProducts = products.filter((product) => product.customer_id === store.seller.id)
+          let totalProducts = 0;
+          filteredProducts.forEach((product) => {
+            totalProducts += product.quantity;
+          });
           return (
             <div className="columns is-multiline">
-              <StoreCard store={store} key={store.id} totalProducts={filteredProducts.length } />
+              <StoreCard store={store} key={store.id} totalProducts={totalProducts } />
               <div className="columns is-multiline">
                 
                 {filteredProducts.map((filteredProduct) => (
