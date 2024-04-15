@@ -9,6 +9,7 @@ export function Detail({ product, like, unlike }) {
   const usernameEl = useRef()
   const [showModal, setShowModal] = useState(false)
   const [showError, setShowError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("This user doesn't exist")
 
 
   const addToCart = () => {
@@ -19,7 +20,8 @@ export function Detail({ product, like, unlike }) {
 
   const recommendProductEvent = () => {
     recommendProduct(product.id, usernameEl.current.value).then((res) => {
-      if (res) {
+      if (res.message) {
+        setErrorMessage(res.message)
         setShowError(true)
       } else {
         setShowModal(false)
@@ -34,7 +36,7 @@ export function Detail({ product, like, unlike }) {
       <Modal setShowModal={setShowModal} showModal={showModal} title="Recommend this product to a user">
         <Input id="username" label="Enter a username" refEl={usernameEl}>
           {
-            showError ? <p className="help is-danger">This user doesn't exist</p> : <></>
+            showError ? <p className="help is-danger">{errorMessage}</p> : <></>
           }
         </Input>
         <>

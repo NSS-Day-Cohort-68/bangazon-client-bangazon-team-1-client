@@ -1,4 +1,4 @@
-import { fetchWithResponse } from "./fetcher"
+import { createWithResponse, fetchWithResponse } from "./fetcher"
 
 export function login(user) {
   return fetchWithResponse('login', {
@@ -11,7 +11,7 @@ export function login(user) {
 }
 
 export function register(user) {
-  return fetchWithResponse('register', {
+  return createWithResponse('register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

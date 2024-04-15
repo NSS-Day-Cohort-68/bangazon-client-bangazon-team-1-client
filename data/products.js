@@ -1,4 +1,4 @@
-import { fetchWithResponse, fetchWithoutResponse } from './fetcher'
+import { fetchWithResponse, fetchWithoutResponse, fetchWithoutStatus } from './fetcher'
 
 export function getProducts(query=undefined) {
   const url = 'products'
@@ -30,17 +30,30 @@ export function getProductById(id) {
   })
 }
 
-export function addProductToOrder(id) {
-  return fetchWithResponse(`products/${id}/add_to_order`, {
+export function addProductToOrder(productId) {
+  return fetchWithResponse(`/cart`, {
     method: 'POST',
+    headers: {
+      Authorization: `Token ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+
+    },
+    body: JSON.stringify({product_id: productId})
+
+  })
+}
+
+export function removeProductFromOrder(id) {
+  return fetchWithoutResponse(`products/${id}/remove-from-order`, {
+    method: 'DELETE',
     headers: {
       Authorization: `Token ${localStorage.getItem('token')}`
     }
   })
 }
 
-export function removeProductFromOrder(id) {
-  return fetchWithoutResponse(`products/${id}/remove-from-order`, {
+export function removeAllProductsFromOrder() {
+  return fetchWithoutResponse(`/profile/cart`, {
     method: 'DELETE',
     headers: {
       Authorization: `Token ${localStorage.getItem('token')}`
@@ -91,7 +104,7 @@ export function editProduct(id, product) {
 }
 
 export function recommendProduct(id, username) {
-  return fetchWithResponse(`products/${id}/recommend`, {
+  return fetchWithoutStatus(`products/${id}/recommend`, {
     method: 'POST',
     headers: {
       Authorization: `Token ${localStorage.getItem('token')}`,
