@@ -28,18 +28,18 @@ export default function Navbar() {
           </span>
         </a>
         <div className="navbar-dropdown is-right">
-          <Link href="/cart"><a className="navbar-item">Cart</a></Link>
-          <Link href="/my-orders"><a className="navbar-item">My Orders</a></Link>
-          <Link href="/payments"><a className="navbar-item">Payment Methods</a></Link>
-          <Link href="/profile"><a className="navbar-item">Profile</a></Link>
+          <Link href="/cart" legacyBehavior><a className="navbar-item">Cart</a></Link>
+          <Link href="/my-orders" legacyBehavior><a className="navbar-item">My Orders</a></Link>
+          <Link href="/payments" legacyBehavior><a className="navbar-item">Payment Methods</a></Link>
+          <Link href="/profile" legacyBehavior><a className="navbar-item">Profile</a></Link>
           {
             profile.store ?
               <>
                 <Link href={`/stores/${profile.store.id}`}><a className="navbar-item">My Store</a></Link>
-                <Link href="/products/new"><a className="navbar-item">Add a new Product</a></Link>
+                <Link href="/products/new" legacyBehavior><a className="navbar-item">Add a new Product</a></Link>
               </>
               :
-              <Link href="/stores/new"><a className="navbar-item">Interested in selling?</a></Link>
+              <Link href="/stores/new" legacyBehavior><a className="navbar-item">Interested in selling?</a></Link>
           }
           <hr className="navbar-divider"></hr>
           <a className="navbar-item" onClick={
@@ -59,12 +59,12 @@ export default function Navbar() {
     return (
       <div className="navbar-item">
         <div className="buttons">
-          <Link href="/register">
+          <Link href="/register" legacyBehavior>
             <a className="button is-primary">
               <strong>Sign up</strong>
             </a>
           </Link>
-          <Link href="/login">
+          <Link href="/login" legacyBehavior>
             <a className="button is-light">
               Log in
             </a>
@@ -93,8 +93,8 @@ export default function Navbar() {
 
       <div className="navbar-menu" ref={navbar}>
         <div className="navbar-start">
-          <Link href="/products"><a className="navbar-item">Products</a></Link>
-          <Link href="/stores"><a className="navbar-item">Stores</a></Link>
+          <Link href="/products" legacyBehavior><a className="navbar-item">Products</a></Link>
+          <Link href="/stores" legacyBehavior><a className="navbar-item">Stores</a></Link>
         </div>
         <div className="navbar-end">
           {

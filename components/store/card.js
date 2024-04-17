@@ -16,7 +16,7 @@ export function StoreCard({ store, favorite, width = "is-half", totalProducts, l
             {totalProducts && <p>Total Products: {totalProducts}</p>}
           </div>
           <footer className="card-footer">
-            <Link href={`stores/${store.id}`}>
+            <Link href={`stores/${store.id}`} legacyBehavior>
               <a className="card-footer-item">View Store</a>
             </Link>
           </footer>
@@ -39,7 +39,7 @@ export function StoreCard({ store, favorite, width = "is-half", totalProducts, l
           {totalProducts && <p>Total Products: {totalProducts}</p>}
         </div>
         <footer className="card-footer">
-          <Link href={`stores/${favorite.store.id}`}>
+          <Link href={`stores/${favorite.store.id}`} legacyBehavior>
             <a className="card-footer-item">View Store</a>
           </Link>
         </footer>
