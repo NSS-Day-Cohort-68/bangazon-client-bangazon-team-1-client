@@ -34,10 +34,10 @@ export default function Stores() {
             totalProducts += product.quantity;
           });
           return (
-            <div className="columns is-multiline">
-              <StoreCard store={store} key={store.id} totalProducts={totalProducts } />
+            <div className="columns is-multiline" key={store.id}>
+              <StoreCard store={store} key={store.id} totalProducts={totalProducts} listView={true}/>
               <div className="columns is-multiline">
-                
+
                 {filteredProducts.map((filteredProduct) => (
                   <ProductCard product={filteredProduct} key={filteredProduct.id} />
                 ))}
