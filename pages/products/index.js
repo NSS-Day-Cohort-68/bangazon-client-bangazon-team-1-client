@@ -4,15 +4,15 @@ import Layout from "../../components/layout"
 import Navbar from "../../components/navbar"
 import { ProductCard } from "../../components/product/card"
 import { getCategories, getProducts } from "../../data/products"
+import { useQuery, useQueryClient } from "react-query"
 
 export default function Products() {
-  const [products, setProducts] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const { data: products, isLoading, error: productError } = useQuery("products", getProducts)
   const [loadingMessage, setLoadingMessage] = useState("Loading products...")
   const [locations, setLocations] = useState([])
-  const [categories, setCategories] = useState([])
-  const [recentProducts, setRecentProducts] = useState({})
+  const { data: categories } = useQuery("categories", getCategories)
   const [isFiltering, setIsFiltering] = useState(false)
+  const queryClient = useQueryClient()
 
   const getRecentProducts = async () => {
     const out = {}
@@ -20,42 +20,34 @@ export default function Products() {
       const data = await getProducts(`category=${category.id}&quantity=5`)
       out[category.id] = data
     }
-    setRecentProducts(out)
+    return out
   }
+  const { data: recentProducts } = useQuery("recentProducts", getRecentProducts, {
+    enabled: !!categories,
+  })
 
   useEffect(() => {
-    getProducts()
-      .then((data) => {
-        if (data) {
-          const locationData = [...new Set(data.map((product) => product.location))]
-          const locationObjects = locationData.map((location) => ({
-            id: location,
-            name: location,
-          }))
+    if (products) {
+      const locationData = [...new Set(products.map((product) => product.location))]
+      const locationObjects = locationData.map((location) => ({
+        id: location,
+        name: location,
+      }))
 
-          setProducts(data)
-          setIsLoading(false)
-          setLocations(locationObjects)
-        }
+      setLocations(locationObjects)
+    }
 
-        getCategories().then(setCategories)
-      })
-      .catch((err) => {
-        setLoadingMessage(`Unable to retrieve products. Status code ${err.message} on response.`)
-      })
-  }, [])
+    if (productError) {
+      setLoadingMessage(`Unable to retrieve products. Status code ${productError} on response.`)
+    }
+  }, [productError, products])
 
-  useEffect(() => {
-    getRecentProducts()
-  }, [categories])
-
-  const searchProducts = (event) => {
+  const searchProducts = async (event) => {
     setIsFiltering(!(event === "" || event == "direction=asc&" || event == "direction=desc&"))
-    getProducts(event).then((productsData) => {
-      if (productsData) {
-        setProducts(productsData)
-      }
-    })
+    const productsData = await getProducts(event)
+    if (productsData) {
+      queryClient.setQueryData("products", productsData)
+    }
   }
 
   if (isLoading) return <p>{loadingMessage}</p>
